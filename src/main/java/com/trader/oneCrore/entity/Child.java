@@ -1,7 +1,13 @@
 package com.trader.oneCrore.entity;
 
+
+import java.sql.Timestamp;
+import org.hibernate.annotations.Generated;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "CHILD")
@@ -11,52 +17,41 @@ public class Child implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "SYMBOL")
     private String Symbol;
 
     @Column(name = "SASIBUY")
-    private String SasiBuy;
+    private String sasiBuy;
 
     @Column(name = "GOLDENBUY")
-    private String GoldenBuy;
+    private String goldenBuy;
 
     @Column(name = "SUPERBUY")
-    private String SuperBuy;
+    private String superBuy;
 
     @Column(name = "CREATIONDATE")
-    private String creationDate;
+    private Timestamp creationDate;
 
-    @Column(name = "TIMESLOT")
-    private String timeslot;
+    @Column(name = "PERCENTAGE")
+    private String percentage;
 
-    public String getCreationDate() {
+    public String getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(String percentage) {
+        this.percentage = percentage;
+    }
+
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public String getTimeslot() {
-        return timeslot;
-    }
-
-    public void setTimeslot(String timeslot) {
-        this.timeslot = timeslot;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "stock_symbol")
-    private Stock stock;
-
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
     }
 
     public Long getId() {
@@ -75,37 +70,41 @@ public class Child implements Serializable {
         return Symbol;
     }
 
-    public void setSasiBuy(String SasiBuy) {
-        this.SasiBuy = SasiBuy;
-    }
 
     public String getSasiBuy() {
-        return SasiBuy;
+        return sasiBuy;
     }
 
-    public void setGoldenBuy(String GoldenBuy) {
-        this.GoldenBuy = GoldenBuy;
+    public void setSasiBuy(String sasiBuy) {
+        this.sasiBuy = sasiBuy;
     }
 
     public String getGoldenBuy() {
-        return GoldenBuy;
+        return goldenBuy;
     }
 
-    public void setSuperBuy(String SuperBuy) {
-        this.SuperBuy = SuperBuy;
+    public void setGoldenBuy(String goldenBuy) {
+        this.goldenBuy = goldenBuy;
     }
 
     public String getSuperBuy() {
-        return SuperBuy;
+        return superBuy;
+    }
+
+    public void setSuperBuy(String superBuy) {
+        this.superBuy = superBuy;
     }
 
     @Override
     public String toString() {
-        return "CHILD{" +
-                "Symbol=" + Symbol + '\'' +
-                "SasiBuy=" + SasiBuy + '\'' +
-                "GoldenBuy=" + GoldenBuy + '\'' +
-                "SuperBuy=" + SuperBuy + '\'' +
+        return "Child{" +
+                "id=" + id +
+                ", Symbol='" + Symbol + '\'' +
+                ", sasiBuy='" + sasiBuy + '\'' +
+                ", goldenBuy='" + goldenBuy + '\'' +
+                ", superBuy='" + superBuy + '\'' +
+                ", creationDate=" + creationDate +
+                ", percentage='" + percentage + '\'' +
                 '}';
     }
 }

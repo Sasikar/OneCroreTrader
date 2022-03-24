@@ -3,20 +3,38 @@ package com.trader.oneCrore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.sql.Driver;
+import java.util.HashMap;
 import java.util.Set;
 
 public class CommonLogin {
 
-    public WebDriver login() throws InterruptedException {
+    public WebDriver login(String driverNo) throws InterruptedException {
 
-        System.setProperty("webdriver.chrome.driver", "G:\\Batch\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "G:\\Batch_1\\chromedriver_win32\\chromedriver.exe");
 
-        // Instantiate a ChromeDriver class.
-        WebDriver driver = new ChromeDriver();
+        int no = Integer.parseInt(driverNo);
+        String downloadFilepath = "";
+        String z1 = "";
+        String y1 = "";
+        if (no % 2 == 0) {
+            downloadFilepath = "G:\\Batch_2";
+            z1 = "'" + "3MINDIA" + "'";
+            y1 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()=" + z1 + "]";
+        } else {
+            downloadFilepath = "G:\\Batch_1";
+            z1 = "'" + "3MINDIA" + "'";
+            y1 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()=" + z1 + "]";
+        }
+        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+        chromePrefs.put("profile.default_content_settings.popups", 0);
+        chromePrefs.put("download.default_directory", downloadFilepath);
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", chromePrefs);
+        WebDriver driver = new ChromeDriver(options);
 
-        //Maximize the browser
         driver.manage().window().maximize();
 
         // Launch Website
@@ -70,10 +88,6 @@ public class CommonLogin {
         Thread.sleep(9000);
         driver.findElement(By.xpath(excel)).click();
 
-
-        String z1 = "'" + "3MINDIA" + "'";
-
-        String y1 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()=" + z1 + "]";
 
         Thread.sleep(9000);
         String mainWindow1 = driver.getWindowHandle();

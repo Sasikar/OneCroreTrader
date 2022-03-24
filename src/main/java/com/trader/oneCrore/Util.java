@@ -1,10 +1,9 @@
 package com.trader.oneCrore;
 
 
-
-
 import com.sun.xml.bind.v2.runtime.RuntimeUtil;
 import com.trader.oneCrore.read.ReadCsv;
+import com.trader.oneCrore.repository.CHILDRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
@@ -28,198 +27,97 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Util {
-    public  void individualSet(String port,ExecutorService executorService,String driverNo)
-            throws InterruptedException, AWTException, IOException {
 
-             final int no = Integer.parseInt(driverNo);
-      //  System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\latest\\chromedriver"+"_"+driverNo+".exe");
+    public void individualSet(ExecutorService executorService, String driverNo, CHILDRepository childRepository)
+            throws InterruptedException, AWTException {
 
-       // System.setProperty("webdriver.chrome.driver", "G:\\Batch\\chromedriver_win32\\chromedriver.exe");
+        final int no = Integer.parseInt(driverNo);
 
-        //get browser capabilities in key value pairs
+        CommonLogin c = new CommonLogin();
+        WebDriver driver = c.login(driverNo);
 
-    /*    ChromeOptions o = new ChromeOptions();
-     //   o.setExperimentalOption("debuggerAddress", "127.0.0.1:"+port);4
-        o.setExperimentalOption("debuggerAddress", "127.0.0.1:9191");
-*/
-        //o.addArguments("disable-blink-features=AutomationControlled");
-     /*   WebDriver driver = new ChromeDriver();
-
-
-        //set implicit wait
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.navigate().to("https://in.tradingview.com/chart/q8S2jrCs");
-        Thread.sleep(2000);
-
-      *//*  Dimension d = new Dimension(300,1080);
-        //Resize current window to the set dimension
-        driver.manage().window().setSize(d);
-*//*
-        Thread.sleep(5000);
-        driver.manage().window().maximize();
-        Thread.sleep(3000);
-
-       *//* driver.manage().window().setSize(d);
-        Thread.sleep(3000);*//*
-
-        driver.manage().window().maximize();
+        Path path = null;
+        if (no % 2 == 0) {
+            String set2 = "//div[@class='button-1SoiPS-f button-pg6Iiu-y apply-common-tooltip']//div[@class='arrow-1SoiPS-f']";
+            driver.findElement(By.xpath(set2)).click();
+            Thread.sleep(1000);
+            driver.findElement(By.xpath("//span[normalize-space()='set2']")).click();
+            path = Paths.get("C:\\Users\\Admin\\Downloads\\set2.txt");
+        } else {
+            path = Paths.get("C:\\Users\\Admin\\Downloads\\set1_1.txt");
+        }
 
 
-        String currentWindowHandle = driver.getWindowHandle();
-
-//run your javascript and alert code
-        ((JavascriptExecutor)driver).executeScript("alert('Test')");
-        driver.switchTo().alert().accept();*/
-
-//Switch back to to the window using the handle saved earlier
-       // driver.switchTo().window(currentWindowHandle);
-
-        //div[@class='headerButton-uV8zMgPt button-1SoiPS-f apply-common-tooltip']//span//*[name()='svg']
-        //div[@class='headerButton-uV8zMgPt button-1SoiPS-f apply-common-tooltip isOpened-1SoiPS-f']//span//*[name()='svg']
-
-       /* driver.findElement(By.xpath("//div[@class='headerButton-uV8zMgPt button-1SoiPS-f apply-common-tooltip']//span//*[name()='svg']")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//div[@id='overlap-manager-root']//div[4]//div[2]//div[1]")).click();
-        Thread.sleep(1000);*/
-       /* driver.findElement(By.xpath("//input[@type='file']")).sendKeys("C:\\Users\\Admin\\Downloads\\set1.txt");
-        //  driver.close();
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ESCAPE);
-        robot.keyRelease(KeyEvent.VK_ESCAPE);
-        Thread.sleep(1000);
-
-         *//*   driver.findElement(By.xpath("//span[normalize-space()='VEDL']")).click();
-            System.out.println(driver.getPageSource());*//* */
-
-         CommonLogin c = new CommonLogin();
-         WebDriver driver = c.login();
-
-
-        Path path = Paths.get("C:\\Users\\Admin\\Downloads\\set1_1.txt");
         StringBuffer sb = new StringBuffer();
-        try {
 
+
+        try {
             Files.lines(path).
                     forEach(x -> {
-                          x = "'"+x.split("NSE:")[1]+"'";
-                        // String y = "'"+"JUBLFOOD"+"'";
-                        //span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()='JUBLFOOD']
-                        //driver.findElement(By.xpath("//span[normalize-space()="+y+"]")).click();
-                        //span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()='JUBLFOOD']
-                        String z = "'"+"UNITDSPR"+"'";
-                        String z1 = "'"+"CAPPL"+"'";
-                        String z2 = "'"+"VENKYS"+"'";
-                        String z3 = "'"+"APOLLOPIPES"+"'";
-                        String z4 = "'"+"PIXTRANS"+"'";
-                        String z5  = "'"+"5PAISA"+"'";
+                        String x1 = "'" + x.split("NSE:")[1] + "'";
+                        String y = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()=" + x1 + "]";
+                        sleep(Thread.currentThread(), 1000);
 
+                        if(findElementWithExceptionHandling(driver, y, x1, no, true))return;
+                        sleep(Thread.currentThread(), 100);
 
-                        String y = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+x+"]";
-                        String y1 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+z1+"]";
-                        String y2 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+z2+"]";
-                        String y3 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+z3+"]";
-                        String y4 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+z4+"]";
-                        String y5 = "//span[@class='inner-EJ_LFrif symbolNameText-EJ_LFrif'][normalize-space()="+z5+"]";
+                        String percentageString = "'"+x+"'";
+                       System.out.println("=========="+driver.findElement(By.xpath("//div[contains(@data-symbol-full,"+percentageString+")]//span[contains(@class,'changeInPercents-EJ_LFrif')]")).getText());
 
+                        String menu = "//div[@class='button-2WfzAPA- button-2Vpz_LXc apply-common-tooltip isInteractive-2Vpz_LXc']//*[name()='svg']";
+                        if(findElementWithExceptionHandling(driver, menu, x1, no, false))return;
+                        sleep(Thread.currentThread(), 100);
 
-
-                        try {
-                            Thread.sleep(9000);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-
-                        WebElement copyrightAtEndOfPage = null;
-                        System.out.println("==================="+no);
-                        System.out.println("==================="+y);
-                        System.out.println("==================="+y5);
-                        if(no%2==0){
-                             copyrightAtEndOfPage = driver.findElement(By.xpath(y));
-                        } else {
-                            copyrightAtEndOfPage = driver.findElement(By.xpath(y5));
-
-                       }
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", copyrightAtEndOfPage);
-
-                        copyrightAtEndOfPage.click();
-                    /*    WebElement copyrightAtEndOfPage2 = driver.findElement(By.xpath(y2));
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", copyrightAtEndOfPage2);
-
-                        WebElement copyrightAtEndOfPage3 = driver.findElement(By.xpath(y3));
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", copyrightAtEndOfPage3);
-
-                        WebElement copyrightAtEndOfPage4 = driver.findElement(By.xpath(y3));
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", copyrightAtEndOfPage4);
-*/
-
-
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException p) {
-                            p.printStackTrace();
-                        }
-
-                       // WebDriverWait wait = new WebDriverWait(driver, 40);
-                       // wait.until(ExpectedConditions.elementToBeClickable(By.xpath(y5)));
-
-                        /*driver.findElement(By.xpath(y)).click();
-                        System.out.println("YOYO"+StringUtils.countMatches(driver.getPageSource(),"Golden_Before_Buy"));
-*/
-                       String menu = "//div[@class='button-2WfzAPA- button-2Vpz_LXc apply-common-tooltip isInteractive-2Vpz_LXc']//*[name()='svg']";
-                        driver.findElement(By.xpath(menu)).click();
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException p) {
-                            p.printStackTrace();
-                        }
 
                         String excel = "//div[contains(text(),'Export chart data')]";
-                        driver.findElement(By.xpath(excel)).click();
+                        if(findElementWithExceptionHandling(driver, excel, x1, no, false))return;
+                        sleep(Thread.currentThread(), 100);
 
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         String dropdown = "//span[@id='time-format-select']//span[@class='icon-14c_DKWJ']//*[name()='svg']";
-                        driver.findElement(By.xpath(dropdown)).click();
-
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        if(findElementWithExceptionHandling(driver, dropdown, x1, no, false))return;
+                        sleep(Thread.currentThread(), 100);
 
                         String isoTime = "//div[contains(text(),'ISO time')]";
-                        driver.findElement(By.xpath(isoTime)).click();
-
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        if(findElementWithExceptionHandling(driver, isoTime, x1, no, false))return;
+                        sleep(Thread.currentThread(), 100);
 
                         String export = "//span[contains(text(),'Export')]";
-                        driver.findElement(By.xpath(export)).click();
+                        if(findElementWithExceptionHandling(driver, export, x1, no, false))return;
 
 
+                        String fileName = x.replace(":", "_") + ", 1D";
+                        executorService.execute(new ReadCsv(fileName, no, childRepository, x1));
 
-                        String fileName  = x.replace(":","_") + ", 1D";
-                        //  executor.execute(new ReadCsv("C:\\Users\\Admin\\Downloads\\"+fileName));
-
-                     throw new RuntimeException();
 
                     });
-              //  executorService.shutdown();
-               // driver.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+    }
 
-        } catch (IOException |  RuntimeException r) {
+    public boolean findElementWithExceptionHandling(WebDriver driver, String path, String iteratedEle, int batchNo, boolean scrollView) {
+        try {
+            if (scrollView) {
+                var actEle = driver.findElement(By.xpath(path));
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", actEle);
+                actEle.click();
+            } else {
+                driver.findElement(By.xpath(path)).click();
+            }
+        } catch (Exception e) {
+            System.out.println("=======> rerun===>" + batchNo + "===>" + iteratedEle);
+            System.out.println(e);
+            return true;
+        }
+        return false;
+    }
 
-           // r.printStackTrace();
+    public void sleep(Thread thread, int time) {
+        try {
+            thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

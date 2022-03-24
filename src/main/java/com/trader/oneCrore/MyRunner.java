@@ -1,7 +1,10 @@
+
+
 package com.trader.oneCrore;
 
 import com.trader.oneCrore.entity.Stock;
 import com.trader.oneCrore.read.ReadAllStocks;
+import com.trader.oneCrore.read.ReadMultiSets;
 import com.trader.oneCrore.repository.CHILDRepository;
 import com.trader.oneCrore.repository.STOCKRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,14 @@ public class MyRunner  implements CommandLineRunner {
     private CHILDRepository childRepository;
     @Override
     public void run(String... args) throws Exception {
-      //  stockRepository.saveAll(ReadAllStocks.getAllIndianStocks());
-
+      ReadMultiSets r = new ReadMultiSets();
+      r.main(childRepository);
 
 
 
 
     }
 }
+
+
+

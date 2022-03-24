@@ -28,16 +28,6 @@ public class Stock implements Serializable {
     @Column(name = "COLUMN4")
     private String Column4;
 
-    @OneToMany(mappedBy = "stock", orphanRemoval = true)
-    private List<Child> children = new ArrayList<>();
-
-    public List<Child> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Child> children) {
-        this.children = children;
-    }
 
     public void setSymbol(String Symbol) {
         this.Symbol = Symbol;
